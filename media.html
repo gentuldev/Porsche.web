@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>911 Video Edits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&family=Teko:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body{font-family:Sora;background:#000;color:#fff;margin:0}
+  h1{font-family:Teko;text-transform:uppercase;letter-spacing:.03em}
+  .wrap{width:min(1100px,92%);margin:28px auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .card{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px;background:#0b0b0b}
+  video{width:100%;border-radius:10px;display:block;background:#111}
+  .muted{opacity:.7}
+</style>
+</head><body>
+<div class="wrap">
+  <h1>911 Video Edits</h1>
+  <p class="muted">Optimized for mobile. MP4 (H.264), 1080p max recommended.</p>
+  <div class="grid" id="videoGrid">
+    <div class="card">
+      <video controls preload="metadata" poster="assets/posters/911-edit-01.jpg">
+        <source data-src="assets/video/911-edit-01.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="card">
+      <video controls preload="metadata" poster="assets/posters/911-edit-02.jpg">
+        <source data-src="assets/video/911-edit-02.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Lazy-load video sources when in view
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const video = entry.target;
+        const source = video.querySelector('source');
+        if(source && source.dataset.src && !source.src){
+          source.src = source.dataset.src;
+          video.load();
+        }
+        io.unobserve(video);
+      }
+    });
+  }, { rootMargin:'200px' });
+
+  document.querySelectorAll('video').forEach(v => io.observe(v));
+</script>
+</body></html>
