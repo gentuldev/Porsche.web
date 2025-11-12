@@ -1,67 +1,221 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>911 Series Specs</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&family=Teko:wght@400;600;700&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Porsche 911 GT3 RS — Engineering Precision</title>
+
+<!-- fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+
 <style>
-  body{font-family:Sora,system-ui;background:#000;color:#fff;margin:0}
-  h1,h2{font-family:Teko,system-ui;text-transform:uppercase;letter-spacing:.03em}
-  .wrap{width:min(1100px,92%);margin:40px auto}
-  .top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-  select{background:#111;color:#fff;border:1px solid rgba(255,255,255,.15);padding:.6rem .8rem;border-radius:10px}
-  table{width:100%;border-collapse:collapse;margin-top:16px}
-  th,td{border-bottom:1px solid rgba(255,255,255,.08);padding:12px 10px;text-align:left}
-  tr:hover td{background:rgba(255,255,255,.03)}
-  .muted{opacity:.7}
+:root{
+  --bg:#000;
+  --gold:#d4af37;
+  --text:#fff;
+  --muted:rgba(255,255,255,.75);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Sora",system-ui;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* header */
+header.nav{
+  position:fixed;top:0;left:0;right:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 22px;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  transition:transform .35s ease,opacity .35s ease;
+}
+header.nav.hide{transform:translateY(-100%);opacity:.2}
+.brand{font-family:"Teko";font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+nav.nav{display:flex;gap:1.4rem}
+nav.nav a{color:#fff;text-decoration:none;opacity:.9;font-weight:500}
+nav.nav a:hover{opacity:1;border-bottom:2px solid var(--gold);padding-bottom:2px}
+.page-offset{padding-top:76px}
+
+/* grid */
+.specs-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(480px,1fr));
+  gap:30px;
+  width:min(1200px,94%);
+  margin:0 auto;
+  padding-bottom:80px;
+}
+
+/* text blocks */
+.spec-block h2{
+  font-family:"Teko";
+  font-size:2.2rem;
+  letter-spacing:.05em;
+  margin-bottom:.5rem;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.spec-list{list-style:none;margin-top:1rem}
+.spec-list li{
+  display:flex;justify-content:space-between;
+  padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.spec-list span.value{color:var(--gold);font-weight:600}
+
+/* engine photo */
+.engine-photo{
+  position:relative;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+}
+.engine-photo img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;
+  filter:brightness(.9);
+}
+.engine-overlay{
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 70% 30%,rgba(212,175,55,.08),transparent 70%);
+}
+.engine-lines::before,.engine-lines::after{
+  content:"";position:absolute;border:1px solid var(--gold);opacity:.6;
+  width:120px;height:120px;border-radius:50%;
+  animation:rotateDots 8s linear infinite;
+}
+.engine-lines::after{
+  width:160px;height:160px;top:40%;left:60%;
+  animation-delay:-3s;
+}
+@keyframes rotateDots{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}
+
+/* video */
+.video-box{
+  position:relative;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+}
+.video-box video{
+  width:100%;height:100%;object-fit:cover;
+}
+.video-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.8));
+}
+
+/* performance section */
+.performance h2{color:var(--gold)}
+.counter{font-family:"Teko";font-size:3rem;color:var(--gold);}
+
+/* accent lines */
+.corner{
+  position:absolute;width:40px;height:40px;border:2px solid var(--gold);
+}
+.corner.tl{top:0;left:0;border-right:0;border-bottom:0;}
+.corner.br{bottom:0;right:0;border-left:0;border-top:0;}
+
+@media(max-width:600px){
+  .specs-grid{grid-template-columns:1fr}
+}
 </style>
-</head><body>
-  <div class="wrap">
-    <div class="top">
-      <h1>911 Series — Full Specifications</h1>
-      <label>
-        <span class="muted">Select Model:</span>
-        <select id="modelSelect"></select>
-      </label>
-    </div>
-    <table id="specTable">
-      <tbody></tbody>
-    </table>
-  </div>
+</head>
+<body>
+<header class="nav">
+  <div class="brand">The 911 Experience</div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="media.html">Audio & Video</a>
+    <a href="specs.html" aria-current="page">Specs</a>
+  </nav>
+</header>
+
+<div class="page-offset">
+  <main class="specs-grid">
+
+    <!-- top-left -->
+    <section class="spec-block">
+      <h2>Engine & Powertrain</h2>
+      <ul class="spec-list">
+        <li><span>Engine Type</span><span class="value">4.0 L Flat-6, Naturally Aspirated</span></li>
+        <li><span>Horsepower</span><span class="value">518 hp (386 kW)</span></li>
+        <li><span>Torque</span><span class="value">465 Nm @ 6,300 rpm</span></li>
+        <li><span>Transmission</span><span class="value">7-Speed PDK Dual-Clutch</span></li>
+        <li><span>Redline</span><span class="value">9,000 rpm</span></li>
+        <li><span>Drivetrain</span><span class="value">Rear-Wheel Drive</span></li>
+      </ul>
+    </section>
+
+    <!-- top-right -->
+    <section class="engine-photo">
+      <div class="corner tl"></div>
+      <img src="assets/engine/engine-hero.jpg" alt="Porsche GT3 RS engine">
+      <div class="engine-overlay"></div>
+      <div class="engine-lines"></div>
+      <div class="corner br"></div>
+    </section>
+
+    <!-- bottom-left -->
+    <section class="video-box">
+      <div class="corner tl"></div>
+      <video autoplay muted loop playsinline src="assets/engine/gt3rs-speed.mp4"></video>
+      <div class="video-overlay"></div>
+      <div class="corner br"></div>
+    </section>
+
+    <!-- bottom-right -->
+    <section class="spec-block performance">
+      <h2>Performance & Dynamics</h2>
+      <ul class="spec-list">
+        <li><span>0 – 100 km/h</span><span class="value"><span class="counter" data-target="3.0">0.0</span> s</span></li>
+        <li><span>Top Speed</span><span class="value"><span class="counter" data-target="296">0</span> km/h</span></li>
+        <li><span>Weight</span><span class="value">1,450 kg (3,197 lbs)</span></li>
+        <li><span>Downforce</span><span class="value">860 kg @ 285 km/h</span></li>
+        <li><span>Chassis</span><span class="value">Active Aero + Double Wishbone</span></li>
+        <li><span>Brakes</span><span class="value">Carbon Ceramic, Six-Piston</span></li>
+      </ul>
+    </section>
+
+  </main>
+</div>
 
 <script>
-(async function(){
-  const res = await fetch('specs/911-specs.json');
-  const data = await res.json();
-  const models = data.models || [];
-  const select = document.getElementById('modelSelect');
-  const tbody = document.querySelector('#specTable tbody');
+// auto-hide header
+let lastScroll=0;
+const nav=document.querySelector("header.nav");
+window.addEventListener("scroll",()=>{
+  const cur=window.pageYOffset||document.documentElement.scrollTop;
+  if(cur>lastScroll&&cur>100){nav.classList.add("hide");}
+  else{nav.classList.remove("hide");}
+  lastScroll=cur<=0?0:cur;
+});
 
-  // Populate dropdown
-  models.forEach((m, idx)=>{
-    const opt = document.createElement('option');
-    opt.value = idx; opt.textContent = `${m.name} — ${m.year}`;
-    select.appendChild(opt);
+// count-up animation
+function animateCounters(){
+  document.querySelectorAll(".counter").forEach(el=>{
+    const target=parseFloat(el.dataset.target);
+    const duration=2000;
+    const start=performance.now();
+    function update(now){
+      const p=Math.min((now-start)/duration,1);
+      const val=(target*p).toFixed(1);
+      el.textContent=val;
+      if(p<1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
   });
-
-  function render(i=0){
-    const m = models[i];
-    tbody.innerHTML = `
-      <tr><th>Model</th><td>${m.name} (${m.year})</td></tr>
-      <tr><th>Engine</th><td>${m.engine}</td></tr>
-      <tr><th>Power</th><td>${m.power_hp} hp</td></tr>
-      <tr><th>Torque</th><td>${m.torque_nm} Nm</td></tr>
-      <tr><th>Drive</th><td>${m.drive}</td></tr>
-      <tr><th>Transmission</th><td>${m.transmission}</td></tr>
-      <tr><th>0–100 km/h</th><td>${m["0_100_kmh_s"]} s</td></tr>
-      <tr><th>Top Speed</th><td>${m.top_speed_kmh} km/h</td></tr>
-      <tr><th>Weight</th><td>${m.weight_kg} kg</td></tr>
-      <tr><th>Fuel (WLTP)</th><td>${m.fuel_l_100km} L/100km</td></tr>
-      <tr><th>Dimensions (L×W×H / WB)</th>
-          <td>${m.dimensions_mm.L} × ${m.dimensions_mm.W} × ${m.dimensions_mm.H} mm / WB ${m.dimensions_mm.WB} mm</td></tr>
-    `;
-  }
-  render(0);
-  select.addEventListener('change', e=> render(+e.target.value));
-})();
+}
+window.addEventListener("load",animateCounters);
 </script>
-</body></html>
+</body>
+</html>
