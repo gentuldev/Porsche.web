@@ -15,13 +15,25 @@
 
 <style>
   /* Header */
-  header.nav{
-    position:fixed; top:0; left:0; right:0; z-index:10;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px 22px;
-    background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,0));
-    border-bottom:1px solid rgba(255,255,255,.06);
-  }
+  header.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  transition: transform .35s ease, background .35s ease;
+}
+header.nav.hide {
+  transform: translateY(-100%);
+}
+  .page-offset { padding-top: 76px; }
   .brand{
     font-family:"Teko",system-ui; font-weight:700; text-transform:uppercase;
     letter-spacing:.06em; opacity:.95; white-space:nowrap; font-size:1.05rem;
@@ -294,6 +306,22 @@
       const open = mainNav.classList.toggle('open');
       menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+let lastScroll = 0;
+const nav = document.querySelector("header.nav");
+
+window.addEventListener("scroll", () => {
+  const current = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (current > lastScroll && current > 100) {
+    // Scrolling down -> hide
+    nav.classList.add("hide");
+  } else {
+    // Scrolling up -> show
+    nav.classList.remove("hide");
+  }
+
+  lastScroll = current <= 0 ? 0 : current;
+});
   </script>
 </body>
 </html>
