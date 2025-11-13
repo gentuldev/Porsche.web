@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>911 Lineup – The 911 Experience</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#000;
+  --panel:#0b0b0b;
+  --line:rgba(255,255,255,.08);
+  --txt:#ffffff;
+  --muted:rgba(255,255,255,.76);
+  --gold:#d4af37;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Sora",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+  background:var(--bg);
+  color:var(--txt);
+  overflow-x:hidden;
+}
+
+/* ===== UNIVERSAL NAV (same tiny header as other pages) ===== */
+header.nav{
+  position:fixed; inset:0 0 auto 0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px;
+  background:linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,0));
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(6px);
+}
+.brand{
+  font-family:"Teko",system-ui;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-size:.95rem;
+}
+nav.nav{ display:flex; gap:1.25rem }
+nav.nav a{
+  font-family:"Sora",system-ui;
+  font-weight:600;
+  font-size:.9rem;
+  letter-spacing:.02em;
+  text-transform:none;
+  color:#fff;
+  text-decoration:none;
+  opacity:.92;
+  white-space:nowrap;
+}
+nav.nav a:hover{
+  opacity:1;
+  border-bottom:2px solid var(--gold);
+  padding-bottom:2px;
+}
+nav.nav a[aria-current="page"]{ opacity:1 }
+
+.menu-toggle{ display:none; background:transparent; border:0; cursor:pointer }
+.menu-toggle span{
+  height:3px; width:24px;
+  background:#fff; display:block; border-radius:3px;
+}
+@media (max-width:820px){
+  .menu-toggle{
+    display:flex; flex-direction:column; gap:6px;
+    width:32px; height:26px;
+  }
+  nav.nav{
+    position:fixed; top:60px; right:0;
+    flex-direction:column; gap:0;
+    background:rgba(0,0,0,.95);
+    padding:12px 18px;
+    border-left:1px solid var(--line);
+    transform:translateX(100%);
+    transition:transform .28s ease;
+  }
+  nav.nav.open{ transform:translateX(0) }
+}
+
+/* push content below header */
+.page-offset{ padding-top:70px }
+
+/* ===== HERO ===== */
+.hero{
+  width:min(1200px,92%);
+  margin:0 auto 32px;
+  padding:28px 0 8px;
+  border-bottom:1px solid var(--line);
+}
+.hero-eyebrow{
+  font-family:"Teko";
+  letter-spacing:.30em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-size:.85rem;
+}
+.hero-title{
+  font-family:"Teko";
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-size:clamp(2rem,4.8vw,3.1rem);
+  margin:.25rem 0 .4rem;
+}
+.hero-sub{
+  color:var(--muted);
+  max-width:46rem;
+  font-size:.98rem;
+}
+
+/* ===== LINEUP GRID ===== */
+.wrap{
+  width:min(1200px,92%);
+  margin:14px auto 60px;
+}
+.section-label{
+  font-family:"Teko";
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-size:.8rem;
+  margin-bottom:8px;
+}
+.section-title{
+  font-family:"Teko";
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-size:1.35rem;
+  margin-bottom:16px;
+}
+
+.grid{
+  display:grid;
+  gap:16px;
+  grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+}
+
+.card{
+  position:relative;
+  background:var(--panel);
+  border-radius:16px;
+  border:1px solid var(--line);
+  padding:18px 16px 14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(120% 80% at 80% 0%, rgba(212,175,55,.10), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.7));
+  opacity:.9;
+  pointer-events:none;
+}
+.card-body{ position:relative; z-index:1 }
+
+.model-tag{
+  font-family:"Teko";
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:.78rem;
+  color:var(--muted);
+}
+.model-name{
+  margin-top:.2rem;
+  font-family:"Teko";
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-size:1.7rem;
+}
+.meta-line{
+  margin-top:.35rem;
+  font-size:.9rem;
+  color:var(--muted);
+}
+.meta-highlight{
+  color:var(--gold);
+  font-weight:600;
+}
+
+/* spec chips */
+.chips{
+  display:flex; flex-wrap:wrap;
+  gap:6px;
+  margin:10px 0 12px;
+}
+.chip{
+  border-radius:999px;
+  border:1px solid var(--line);
+  padding:4px 9px;
+  font-size:.78rem;
+  color:var(--muted);
+  background:rgba(0,0,0,.7);
+}
+
+/* button */
+.btn{
+  appearance:none;
+  border-radius:999px;
+  border:1px solid var(--gold);
+  padding:.6rem 1.1rem;
+  font-size:.86rem;
+  font-weight:600;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  background:linear-gradient(90deg, var(--gold), #f0c75e);
+  color:#000;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  cursor:pointer;
+  box-shadow:0 10px 26px rgba(212,175,55,.25);
+}
+.btn span.arrow{ font-size:.95rem }
+
+@media (max-width:520px){
+  .card{ padding:16px 14px 12px }
+}
+</style>
+</head>
+<body>
+
+<header class="nav" role="navigation" aria-label="Primary">
+  <div class="brand">The 911 Experience</div>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-controls="mainNav" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- same nav as other subpages: Home, Gallery, Audio & Video, Specs -->
+  <nav class="nav" id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="media.html">Audio & Video</a>
+    <a href="specs.html">Specs</a>
+  </nav>
+</header>
+
+<div class="page-offset">
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Porsche 911 Lineup</p>
+    <h1 class="hero-title">Choose Your 911</h1>
+    <p class="hero-sub">
+      A quick gateway to the official Porsche models. Pick a character — track weapon, grand tourer, or open-roof icon — and dive deeper on Porsche.com.
+    </p>
+  </section>
+
+  <main class="wrap">
+    <!-- TRACK FOCUSED -->
+    <section aria-labelledby="trackSection">
+      <p class="section-label" id="trackSection">Track Focused</p>
+      <h2 class="section-title">Built for Lap Times</h2>
+
+      <div class="grid">
+        <!-- GT3 RS -->
+        <article class="card">
+          <div class="card-body">
+            <div class="model-tag">Type 992</div>
+            <h3 class="model-name">911 GT3 RS</h3>
+            <p class="meta-line">
+              <span class="meta-highlight">518 hp</span> • 4.0&nbsp;L NA flat-six • Rear-wheel drive
+            </p>
+            <div class="chips">
+              <span class="chip">9,000 rpm redline</span>
+              <span class="chip">Active aero</span>
+              <span class="chip">Track weapon</span>
+            </div>
+            <a class="btn" href="https://www.porsche.com/international/models/911/911-gt3-rs/911-gt3-rs/" target="_blank" rel="noopener">
+              View on Porsche.com <span class="arrow">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- GT3 -->
+        <article class="card">
+          <div class="card-body">
+            <div class="model-tag">Type 992</div>
+            <h3 class="model-name">911 GT3</h3>
+            <p class="meta-line">
+              <span class="meta-highlight">510 hp</span> • 4.0&nbsp;L NA flat-six • Rear-wheel drive
+            </p>
+            <div class="chips">
+              <span class="chip">Clubsport hero</span>
+              <span class="chip">Available with manual</span>
+            </div>
+            <a class="btn" href="https://www.porsche.com/international/models/911/911-gt3-models/911-gt3/" target="_blank" rel="noopener">
+              View on Porsche.com <span class="arrow">↗</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ROAD / OPEN ROOF -->
+    <section aria-labelledby="roadSection" style="margin-top:40px">
+      <p class="section-label" id="roadSection">Road & Open Roof</p>
+      <h2 class="section-title">Everyday Legends</h2>
+
+      <div class="grid">
+        <!-- Targa 4S -->
+        <article class="card">
+          <div class="card-body">
+            <div class="model-tag">Type 992</div>
+            <h3 class="model-name">911 Targa 4S</h3>
+            <p class="meta-line">
+              <span class="meta-highlight">450 hp</span> • 3.0&nbsp;L twin-turbo • All-wheel drive
+            </p>
+            <div class="chips">
+              <span class="chip">Iconic Targa roof</span>
+              <span class="chip">Open-air 911 experience</span>
+            </div>
+            <a class="btn" href="https://www.porsche.com/international/models/911/targa-models/911-targa-4s/" target="_blank" rel="noopener">
+              View on Porsche.com <span class="arrow">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- 911 Turbo S -->
+        <article class="card">
+          <div class="card-body">
+            <div class="model-tag">Type 992</div>
+            <h3 class="model-name">911 Turbo S</h3>
+            <p class="meta-line">
+              <span class="meta-highlight">650 hp</span> • 3.8&nbsp;L twin-turbo • All-wheel drive
+            </p>
+            <div class="chips">
+              <span class="chip">Hypercar acceleration</span>
+              <span class="chip">Everyday usable</span>
+            </div>
+            <a class="btn" href="https://www.porsche.com/international/models/911/911-turbo-models/911-turbo-s/" target="_blank" rel="noopener">
+              View on Porsche.com <span class="arrow">↗</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const mainNav = document.getElementById('mainNav');
+  menuToggle?.addEventListener('click', ()=>{
+    const open = mainNav.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+</body>
+</html>
