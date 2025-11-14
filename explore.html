@@ -29,13 +29,17 @@ body{
 
 /* ===== NAV (same tiny header as other pages) ===== */
 header.nav{
-  position:fixed; inset:0 0 auto 0; z-index:50;
+  position:relative;              /* not fixed anymore */
+  z-index:50;
   display:flex; align-items:center; justify-content:space-between;
   padding:14px 20px;
   background:linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,0));
   border-bottom:1px solid var(--line);
   backdrop-filter:blur(6px);
 }
+
+/* smaller offset now that header isn't sticky */
+.page-offset{ padding-top:20px }
 .brand{
   font-family:"Teko",system-ui;
   font-weight:700;
@@ -336,7 +340,7 @@ nav.nav a[aria-current="page"]{ opacity:1 }
       <!-- Turbo S -->
       <article class="model-card">
         <div class="model-photo" style="background-image:url('assets/model/turbo-s.jpg');"></div>
-        <a class="model-link" href="https://www.porsche.com/international/models/911/turbo-models/911-turbo-s/" target="_blank" rel="noopener">
+        <a class="model-link" href="https://www.porsche.com/international/models/911/911-turbo-models/911-turbo-s/" target="_blank" rel="noopener">
           <div class="model-content">
             <div class="model-tag">Type 992</div>
             <h3 class="model-name">911 Turbo S</h3>
